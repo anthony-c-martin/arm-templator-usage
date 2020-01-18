@@ -1,0 +1,20 @@
+{
+  "name": "arm-templator-usage",
+  "version": "0.0.0",
+  "description": "ARM Typescript template generator prototype usage",
+  "main": "execute",
+  "scripts": {
+    "start": "ts-node execute"
+  },
+  "author": "Anthony Martin <anthony.ct.martin@gmail.com>",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/async": "^3.0.3",
+    "@types/node": "^13.1.5",
+    "arm-templator": "0.0.1",
+    "async": "^3.1.0",
+    "ts-node": "^8.6.1",
+    "typescript": "^3.7.4"
+  }
+}
