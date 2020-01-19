@@ -1,6 +1,6 @@
-import { Template } from 'arm-templator';
+import { renderTemplate } from 'arm-templator';
 
-export default (template: Template) => {
+export default renderTemplate(template => {
   const location = template.addStringParameter('location', 'West US');
   const resourceName = template.addStringParameter('resourceName', 'test');
   const subnetResourceId = template.addStringParameter('subnetResourceId');
@@ -90,4 +90,4 @@ export default (template: Template) => {
   [nic, storageAccount]);
 
   template.addStringOutput('storageUri', storageUri);
-}
+});
