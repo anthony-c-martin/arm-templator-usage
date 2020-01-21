@@ -1,4 +1,4 @@
-import { renderTemplate } from 'arm-templator';
+import { renderTemplate, concat } from 'arm-templator';
 
 export default renderTemplate(template => {
   const location = template.addStringParameter('location', 'West US');
@@ -38,7 +38,7 @@ export default renderTemplate(template => {
   },
   []);
 
-  const storageUri = template.addVariable('bootDiagsUri', template.concat('http://', resourceName, '.blob.core.windows.net'));
+  const storageUri = template.addVariable('bootDiagsUri', concat('http://', resourceName, '.blob.core.windows.net'));
 
   const vm = template.deploy({
     apiVersion: '2019-07-01',
