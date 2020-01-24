@@ -1,4 +1,14 @@
 import { renderTemplate, concat } from 'arm-templator';
+import { ComputeBuilder as compute } from 'arm-templator/dist/types/compute.2019-07-01';
+import { NetworkBuilder as network } from 'arm-templator/dist/types/network.2019-11-01';
+import { StorageBuilder as storage } from 'arm-templator/dist/types/storage.2019-06-01';
+
+const ws2016ImageReference = {
+  publisher: 'MicrosoftWindowsServer',
+  offer: 'WindowsServer',
+  sku: '2016-Datacenter',
+  version: 'latest'
+};
 
 export default renderTemplate(template => {
   const location = template.addStringParameter('location', 'West US');
@@ -6,22 +16,13 @@ export default renderTemplate(template => {
   const subnetResourceId = template.addStringParameter('subnetResourceId');
   const publicIpAddressResourceId = template.addStringParameter('publicIpAddressResourceId');
 
-  const storageAccount = template.deploy({
-    apiVersion: '2015-06-15',
-    type: 'Microsoft.Storage/storageAccounts',
-    name: resourceName,
-    location: location,
-    properties: {
-      accountType: 'Standard_LRS',
-    }
-  }, []);
+  const storageAccount = template.deploy(
+    storage.storageAccounts(resourceName, {
+      accessTier: 'Hot',
+    }, location));
 
-  const nic = template.deploy({
-    apiVersion: '2019-11-01',
-    type: 'Microsoft.Network/networkInterfaces',
-    name: resourceName,
-    location,
-    properties: {
+  const nic = template.deploy(
+    network.networkInterfaces(resourceName, {
       ipConfigurations: [{
         name: 'myConfig',
         properties: {
@@ -34,18 +35,12 @@ export default renderTemplate(template => {
           }
         }
       }],
-    }
-  },
-  []);
+    }, location));
 
   const storageUri = template.addVariable('bootDiagsUri', concat('http://', resourceName, '.blob.core.windows.net'));
 
-  const vm = template.deploy({
-    apiVersion: '2019-07-01',
-    type: 'Microsoft.Compute/virtualMachines',
-    name: resourceName,
-    location,
-    properties: {
+  const vm = template.deploy(
+    compute.virtualMachines(resourceName, {
       osProfile: {
         computerName: 'myVm',
         adminUsername: 'antm88',
@@ -58,12 +53,7 @@ export default renderTemplate(template => {
         vmSize: 'Standard_A1_v2',
       },
       storageProfile: {
-        imageReference: {
-          publisher: 'MicrosoftWindowsServer',
-          offer: 'WindowsServer',
-          sku: '2016-Datacenter',
-          version: 'latest'
-        },
+        imageReference: ws2016ImageReference,
         osDisk: {
           createOption: 'FromImage'
         },
@@ -85,8 +75,7 @@ export default renderTemplate(template => {
           storageUri: storageUri,
         },
       },
-    },
-  },
+    }, location),
   [nic, storageAccount]);
 
   template.addStringOutput('storageUri', storageUri);

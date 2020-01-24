@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^13.1.5",
-    "arm-templator": "0.0.5",
+    "@types/node": "^13.5.0",
+    "arm-templator": "0.0.6",
     "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   }
