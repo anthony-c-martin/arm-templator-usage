@@ -4,9 +4,8 @@
   "description": "ARM Typescript template generator prototype usage",
   "main": "execute",
   "scripts": {
-    "deploy": "ts-node -e 'require(`./src/deploy`).default.deploy()'",
-    "display": "ts-node -e 'require(`./src/deploy`).default.display()'",
-    "compile": "tsc -p ."
+    "deploy": "ts-node -e \"import { default as cli } from './src/deploy'; cli.deploy();\"",
+    "display": "ts-node -e \"import { default as cli } from './src/deploy'; cli.display();\""
   },
   "bugs": {
     "url": "https://github.com/anthony-c-martin/arm-templator-usage/issues"
@@ -26,7 +25,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^13.7.0",
-    "arm-templator": "0.0.10",
+    "arm-templator": "0.0.11",
     "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   }
