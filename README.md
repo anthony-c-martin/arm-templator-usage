@@ -4,11 +4,15 @@ Usage example for https://github.com/anthony-c-martin/arm-templator
 ## Getting Started
 1. Clone this repo
 2. Run `npm install`
-3. Run `npm start {fileName}` where 'fileName' is the name of the template in the root folder
+3. Define your resources and parameters in [template.ts](./src/template.ts) and [deploy.ts](./src/deploy.ts)
+4. To view the generated template in console, run `npm run display`
 
-## Sample Templates
+### Viewing your template
+1. Run `npm run display`
 
-### [Basic](./basic.ts)
-A basic starting point for template generation.
+### Deploying your template
+1. Run `npm run deploy`
 
-Run `npm start basic`
+## Coming soon
+1. The ability to define different sets of deployment parameters for the same template
+2. The ability to store multiple different templates in the same repo

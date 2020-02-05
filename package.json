@@ -1,17 +1,32 @@
 {
   "name": "arm-templator-usage",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "ARM Typescript template generator prototype usage",
   "main": "execute",
   "scripts": {
-    "start": "ts-node execute"
+    "deploy": "ts-node -e 'require(`./src/deploy`).default.deploy()'",
+    "display": "ts-node -e 'require(`./src/deploy`).default.display()'",
+    "compile": "tsc -p ."
   },
+  "bugs": {
+    "url": "https://github.com/anthony-c-martin/arm-templator-usage/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/anthony-c-martin/arm-templator-usage.git"
+  },
+  "keywords": [
+    "azure",
+    "arm",
+    "arm template",
+    "azure resource manager"
+  ],
   "author": "Anthony Martin <anthony.ct.martin@gmail.com>",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^13.5.0",
-    "arm-templator": "0.0.6",
+    "@types/node": "^13.7.0",
+    "arm-templator": "0.0.10",
     "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   }
