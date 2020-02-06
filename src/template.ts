@@ -1,6 +1,6 @@
 import { renderTemplate, concat, getResourceId, resourceGroupLocation } from 'arm-templator';
-import { ComputeBuilder as compute, StorageProfile } from 'arm-templator/dist/types/compute.2019-07-01';
-import { NetworkBuilder as network } from 'arm-templator/dist/types/network.2019-11-01';
+import { virtualMachines, StorageProfile } from 'arm-templator/dist/types/compute.2019-07-01';
+import { networkInterfaces } from 'arm-templator/dist/types/network.2019-11-01';
 
 const defaultStorageProfile: StorageProfile = {
   imageReference: {
@@ -32,7 +32,7 @@ export default renderTemplate(template => {
   }, []);
 
   const nic = template.deploy(
-    network.networkInterfaces(
+    networkInterfaces.create(
       concat(namePrefix, '-nic'), {
         ipConfigurations: [{
           name: 'myConfig',
@@ -49,7 +49,7 @@ export default renderTemplate(template => {
   const storageUri = template.addVariable('bootDiagsUri', concat('http://', storageAccount.name, '.blob.core.windows.net'));
 
   const vm = template.deploy(
-    compute.virtualMachines(
+    virtualMachines.create(
       concat(namePrefix, '-vm'), {
         osProfile: {
           computerName: 'myVm',
