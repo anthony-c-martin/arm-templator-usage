@@ -4,8 +4,7 @@ Usage example for https://github.com/anthony-c-martin/arm-templator
 ## Getting Started
 1. Clone this repo
 2. Run `npm install`
-3. Define your resources and parameters in [template.ts](./src/template.ts) and [deploy.ts](./src/deploy.ts)
-4. To view the generated template in console, run `npm run display`
+3. Edit the template and deployment parameters in [template.ts](./src/basic/template.ts) and [deploy.ts](./src/basic/deploy.ts)
 
 ### Viewing your template
 1. Run `npm run display -- --path ./src/basic/deploy.ts`
@@ -13,6 +12,9 @@ Usage example for https://github.com/anthony-c-martin/arm-templator
 ### Deploying your template
 1. Run `npm run deploy -- --path ./src/basic/deploy.ts`
 
-## Coming soon
-1. The ability to define different sets of deployment parameters for the same template
-2. The ability to store multiple different templates in the same repo
+### Editing
+Templates are simply defined using Typescript, so you're free to use all the Typescript goodness as usual.
+
+### Working with multiple templates or environments
+* To create a new template, simply copy the [basic](./src/basic) directory, and use the `--path` parameter to reference the new deployment file.
+* To work with the same template in different environments, copy the [deploy.ts](./src/basic/deploy.ts) file and define your separate parameters. For example, you could maintain `deploy-prod.ts` and `deploy-test.ts` to manage different sets of parameters for different environments.
