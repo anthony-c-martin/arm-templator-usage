@@ -8,10 +8,10 @@ Usage example for https://github.com/anthony-c-martin/arm-templator
 4. To view the generated template in console, run `npm run display`
 
 ### Viewing your template
-1. Run `npm run display`
+1. Run `npm run display -- --path ./src/basic/deploy.ts`
 
 ### Deploying your template
-1. Run `npm run deploy`
+1. Run `npm run deploy -- --path ./src/basic/deploy.ts`
 
 ## Coming soon
 1. The ability to define different sets of deployment parameters for the same template
