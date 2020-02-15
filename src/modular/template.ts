@@ -1,6 +1,6 @@
 import { renderTemplate, concat, resourceGroupLocation, getResourceId } from 'arm-templator';
-import { virtualMachines } from 'arm-templator-types/dist/compute.2019-07-01';
-import { networkInterfaces, virtualNetworks, publicIPAddresses } from 'arm-templator-types/dist/network.2019-11-01';
+import { virtualMachines } from 'arm-templator-types/dist/compute/2019-07-01';
+import { networkInterfaces, virtualNetworks, publicIPAddresses } from 'arm-templator-types/dist/network/2019-11-01';
 import { createBaseNic, createBaseVm } from './utils';
 
 export default renderTemplate(template => {

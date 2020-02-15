@@ -1,5 +1,5 @@
 import { Expressionable, ResourceDefinition, Expression } from 'arm-templator/dist/common';
-import { deploymentScripts } from 'arm-templator-types/dist/resources.2019-10-01-preview';
+import { deploymentScripts } from 'arm-templator-types/dist/resources/2019-10-01-preview';
 import fs from 'fs';
 import { concat } from 'arm-templator';
 

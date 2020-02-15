@@ -1,6 +1,6 @@
 import { renderTemplate, concat, getResourceId, resourceGroupLocation } from 'arm-templator';
-import { virtualMachines, StorageProfile } from 'arm-templator-types/dist/compute.2019-07-01';
-import { networkInterfaces } from 'arm-templator-types/dist/network.2019-11-01';
+import { virtualMachines, StorageProfile } from 'arm-templator-types/dist/compute/2019-07-01';
+import { networkInterfaces } from 'arm-templator-types/dist/network/2019-11-01';
 
 const defaultStorageProfile: StorageProfile = {
   imageReference: {

@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/node": "^13.7.0",
     "arm-templator": "0.0.16",
-    "arm-templator-types": "^0.0.1",
+    "arm-templator-types": "0.0.2",
     "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   }
