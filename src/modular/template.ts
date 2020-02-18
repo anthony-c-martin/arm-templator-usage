@@ -34,8 +34,7 @@ export default renderTemplate(template => {
       [namePrefix, 'default'],
       {
         addressPrefix: '10.0.0.0/24'
-      },
-      location),
+      }),
     [vnet]);
 
   for (let i = 0; i < 2; i++) {
