@@ -24,7 +24,7 @@ export default renderTemplate(template => {
   const storageAccount = template.deploy({
     apiVersion: '2015-06-15',
     type: 'Microsoft.Storage/storageAccounts',
-    name: concat(namePrefix, 'stg'),
+    name: [concat(namePrefix, 'stg')],
     location: location,
     properties: {
       accountType: 'Standard_LRS',
@@ -46,7 +46,7 @@ export default renderTemplate(template => {
       }, location),
     []);
 
-  const storageUri = template.addVariable('bootDiagsUri', concat('http://', storageAccount.name, '.blob.core.windows.net'));
+  const storageUri = template.addVariable('bootDiagsUri', concat('http://', storageAccount.name[0], '.blob.core.windows.net'));
 
   const vm = template.deploy(
     virtualMachines.create(

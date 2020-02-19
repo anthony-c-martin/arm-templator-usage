@@ -19,8 +19,7 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
 
 export const createScriptsResource = (name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any> => 
   deploymentScripts.create(
-    name,
-    {
+    name, {
       azPowerShellVersion: '1.7.0',
       scriptContent: readScriptFile(scriptPath),
       arguments: formatArgs(args),
@@ -28,4 +27,6 @@ export const createScriptsResource = (name: Expressionable<string>, location: Ex
       timeout: 'PT1H',
       cleanupPreference: 'Always'
     },
-    location);
+    location, {
+      type: 'UserAssigned'
+    });
