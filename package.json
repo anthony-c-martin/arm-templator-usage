@@ -24,7 +24,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^13.7.0",
-    "arm-templator": "0.0.17",
+    "arm-templator": "0.0.19",
     "arm-templator-types": "0.0.7",
     "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
