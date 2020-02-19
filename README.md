@@ -1,5 +1,6 @@
 # arm-templator-usage
-Usage example for https://github.com/anthony-c-martin/arm-templator
+
+> Usage examples for [arm-templator][main-repo].
 
 ## Getting Started
 1. Clone this repo
@@ -18,3 +19,5 @@ Templates are simply defined using Typescript, so you're free to use all the Typ
 ### Working with multiple templates or environments
 * To create a new template, simply copy the [basic](./src/basic) directory, and use the `--path` parameter to reference the new deployment file.
 * To work with the same template in different environments, copy the [deploy.ts](./src/basic/deploy.ts) file and define your separate parameters. For example, you could maintain `deploy-prod.ts` and `deploy-test.ts` to manage different sets of parameters for different environments.
+
+[main-repo]: https://github.com/anthony-c-martin/arm-templator
