@@ -1,11 +1,15 @@
-import { renderTemplate, concat, resourceGroupLocation, getResourceId } from 'arm-templator';
+import { concat, resourceGroupLocation, getResourceId, buildTemplate, Params } from 'arm-templator';
 import { virtualMachines } from 'arm-templator-types/dist/compute/2019-07-01';
 import { networkInterfaces, virtualNetworks, publicIPAddresses } from 'arm-templator-types/dist/network/2019-11-01';
 import { createBaseNic, createBaseVm } from './utils';
 
-export default renderTemplate(template => {
+const params = {
+  namePrefix: Params.String,
+}
+
+export default buildTemplate(params, {}, (params, template) => {
   const location = resourceGroupLocation();
-  const namePrefix = template.addStringParameter('namePrefix', 'test');
+  const { namePrefix } = params;
 
   const publicIp = template.deploy(
     publicIPAddresses.create(
@@ -52,4 +56,6 @@ export default renderTemplate(template => {
         location),
       [nic]);
   }
+
+  return {};
 });

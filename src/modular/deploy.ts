@@ -1,19 +1,17 @@
 import { Deployment } from 'arm-templator';
-import { default as template } from './template'
+import { default as builder } from './template'
 
 const subscriptionId = '319b29d4-ae29-421c-b557-eac405f673b6';
 const resourceGroup = 'anttestrg';
 
-const deployment: Deployment = {
-  location: 'West US',
+export default new Deployment(
+  'West US',
   subscriptionId,
   resourceGroup,
-  name: 'anttest',
-  mode: 'Complete',
-  template: template,
-  parameters: {
+  'anttest',
+  'Complete',
+  builder,
+  {
     namePrefix: 'anttest',
   }
-}
-
-export default deployment;
+);

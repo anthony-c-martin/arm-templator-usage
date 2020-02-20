@@ -1,18 +1,29 @@
-import { renderTemplate, resourceGroupLocation, getReference } from 'arm-templator';
+import { resourceGroupLocation, getReference, buildTemplate, Params, Outputs } from 'arm-templator';
 import { createScriptsResource } from './helper';
 
-export default renderTemplate(template => {
+const params = {
+  myName: Params.String,
+}
+
+const outputs = {
+  text: Outputs.String,
+}
+
+export default buildTemplate(params, outputs, (params, template) => {
   const location = resourceGroupLocation();
-  const name = template.addStringParameter('myName');
+  const { myName } = params;
 
   const script = template.deploy(createScriptsResource(
     'hello',
     location,
     `${__dirname}/hello.ps1`,
     {
-      name,
+      name: myName,
     }), []);
 
   const ref = getReference(script);
-  template.addObjectOutput('text', ref.call('output').call('text'));
+
+  return {
+    text: ref.call('output').call('text'),
+  };
 });

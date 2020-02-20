@@ -1,4 +1,4 @@
-import { renderTemplate, concat, getResourceId, resourceGroupLocation } from 'arm-templator';
+import { buildTemplate, concat, getResourceId, resourceGroupLocation, Params, Outputs } from 'arm-templator';
 import { virtualMachines, StorageProfile } from 'arm-templator-types/dist/compute/2019-07-01';
 import { networkInterfaces } from 'arm-templator-types/dist/network/2019-11-01';
 
@@ -15,10 +15,18 @@ const defaultStorageProfile: StorageProfile = {
   dataDisks: []
 };
 
-export default renderTemplate(template => {
+const params = {
+  namePrefix: Params.String,
+  subnetResourceId: Params.String,
+}
+
+const outputs = {
+  storageUri: Outputs.String,
+}
+
+export default buildTemplate(params, outputs, (params, template) => {
   const location = resourceGroupLocation();
-  const namePrefix = template.addStringParameter('namePrefix');
-  const subnetResourceId = template.addStringParameter('subnetResourceId');
+  const { namePrefix, subnetResourceId } = params;
 
   // example of un-typed resource
   const storageAccount = template.deploy({
@@ -46,7 +54,7 @@ export default renderTemplate(template => {
       }, location),
     []);
 
-  const storageUri = template.addVariable('bootDiagsUri', concat('http://', storageAccount.name[0], '.blob.core.windows.net'));
+  const storageUri = concat('http://', storageAccount.name[0], '.blob.core.windows.net');
 
   const vm = template.deploy(
     virtualMachines.create(
@@ -82,5 +90,7 @@ export default renderTemplate(template => {
       }, location),
     [nic, storageAccount]);
 
-  template.addStringOutput('storageUri', storageUri);
+  return {
+    storageUri,
+  };
 });
