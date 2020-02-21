@@ -17,7 +17,7 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
   return concat(...output);
 }
 
-export const createScriptsResource = (name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any> => 
+export const createScriptsResource = (name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any, any> => 
   deploymentScripts.create(
     name, {
       azPowerShellVersion: '1.7.0',
