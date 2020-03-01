@@ -1,4 +1,4 @@
-import { resourceGroupLocation, buildTemplate, Params, Outputs } from "arm-templator";
+import { resourceGroupLocation, buildTemplate, Params, Outputs } from 'arm-templator';
 import { storageAccounts } from 'arm-templator-types/dist/storage/2019-06-01';
 import { getPrimaryStorageKey, getBackupStorageKey } from "./helper";
 

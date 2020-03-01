@@ -1,4 +1,4 @@
-import { Expressionable } from 'arm-templator/dist/common';
+import { Expressionable } from 'arm-templator';
 import { VirtualMachineProperties, StorageProfile } from 'arm-templator-types/dist/compute/2019-07-01';
 import { NetworkInterfacePropertiesFormat } from 'arm-templator-types/dist/network/2019-11-01';
 

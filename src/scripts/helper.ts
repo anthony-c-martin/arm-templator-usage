@@ -1,4 +1,4 @@
-import { Expressionable, ResourceDefinition, Expression } from 'arm-templator/dist/common';
+import { Expressionable, Expression, } from 'arm-templator';
 import { deploymentScripts } from 'arm-templator-types/dist/resources/2019-10-01-preview';
 import fs from 'fs';
 import { concat } from 'arm-templator';
@@ -17,16 +17,17 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
   return concat(...output);
 }
 
-export const createScriptsResource = (name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any, any> => 
-  deploymentScripts.create(
-    name, {
-      azPowerShellVersion: '1.7.0',
-      scriptContent: readScriptFile(scriptPath),
-      arguments: formatArgs(args),
-      retentionInterval: 'PT7D',
-      timeout: 'PT1H',
-      cleanupPreference: 'Always'
-    },
-    location, {
-      type: 'UserAssigned'
-    });
+export function createScriptsResource(name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}) {
+  return deploymentScripts.create(
+  name, {
+    azPowerShellVersion: '1.7.0',
+    scriptContent: readScriptFile(scriptPath),
+    arguments: formatArgs(args),
+    retentionInterval: 'PT7D',
+    timeout: 'PT1H',
+    cleanupPreference: 'Always'
+  },
+  location, {
+    type: 'UserAssigned'
+  });
+}

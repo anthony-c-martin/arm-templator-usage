@@ -1,8 +1,8 @@
-import { customExpression, getResourceId } from "arm-templator";
-import { Expressionable, ResourceReference } from "arm-templator/dist/common";
+import { custom, getResourceId, Expressionable } from 'arm-templator';
+import { ResourceReference } from 'arm-templator/dist/common';
 
 export function getPrimaryStorageKey(resourceRef: ResourceReference<any>): Expressionable<string> {
-  return customExpression<any>(
+  return custom<any>(
     'listKeys', [
       getResourceId(resourceRef),
       '2016-01-01'
@@ -11,7 +11,7 @@ export function getPrimaryStorageKey(resourceRef: ResourceReference<any>): Expre
 }
 
 export function getBackupStorageKey(resourceRef: ResourceReference<any>): Expressionable<string> {
-  return customExpression<any>(
+  return custom<any>(
     'listKeys', [
       getResourceId(resourceRef),
       '2016-01-01'

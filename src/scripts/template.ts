@@ -24,6 +24,6 @@ export default buildTemplate(params, outputs, (params, template) => {
   const ref = getReference(script);
 
   return {
-    text: ref.call('output').call('text'),
+    text: ref.call<any>('output').call('text'),
   };
 });
