@@ -23,4 +23,4 @@ Templates are simply defined using Typescript, so you're free to use all the Typ
 * To work with the same template in different environments, copy the [deploy.ts](./src/basic/deploy.ts) file and define your separate parameters. For example, you could maintain `deploy-prod.ts` and `deploy-test.ts` to manage different sets of parameters for different environments.
 
 [main-repo]: https://github.com/anthony-c-martin/arm-templator
-[status-image]: https://img.shields.io/github/workflow/status/anthony-c-martin/arm-templator-usage/CIT
+[status-image]: https://img.shields.io/github/workflow/status/anthony-c-martin/arm-templator-usage/CI
