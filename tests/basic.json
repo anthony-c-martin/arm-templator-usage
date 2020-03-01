@@ -1,0 +1,99 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": {
+      "type": "string"
+    },
+    "subnetResourceId": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2015-06-15",
+      "name": "[concat(parameters('namePrefix'), 'stg')]",
+      "properties": {
+        "accountType": "Standard_LRS"
+      },
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-11-01",
+      "name": "[concat(parameters('namePrefix'), '-nic')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "myConfig",
+            "properties": {
+              "subnet": {
+                "id": "[parameters('subnetResourceId')]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ]
+      },
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "name": "[concat(parameters('namePrefix'), '-vm')]",
+      "properties": {
+        "osProfile": {
+          "computerName": "myVm",
+          "adminUsername": "[concat(parameters('namePrefix'), 'admin')]",
+          "adminPassword": "myS3cretP@ssw0rd",
+          "windowsConfiguration": {
+            "provisionVMAgent": true
+          }
+        },
+        "hardwareProfile": {
+          "vmSize": "Standard_A1_v2"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2016-Datacenter",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage"
+          },
+          "dataDisks": []
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "properties": {
+                "primary": true
+              },
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[concat('http://', parameters('namePrefix'), 'stg.blob.core.windows.net')]"
+          }
+        }
+      },
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', concat(parameters('namePrefix'), 'stg'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "storageUri": {
+      "type": "string",
+      "value": "[concat('http://', parameters('namePrefix'), 'stg.blob.core.windows.net')]"
+    }
+  }
+}

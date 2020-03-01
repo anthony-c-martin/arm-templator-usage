@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "myName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deploymentScripts",
+      "apiVersion": "2019-10-01-preview",
+      "name": "hello",
+      "properties": {
+        "azPowerShellVersion": "1.7.0",
+        "scriptContent": "Param(\n  [string] $name\n)\n\n$output = 'Hello {0}' -f $name\nWrite-Output $output\n\n$DeploymentScriptOutputs = @{}\n$DeploymentScriptOutputs['text'] = $output",
+        "arguments": "[concat(' -name', parameters('myName'))]",
+        "retentionInterval": "PT7D",
+        "timeout": "PT1H",
+        "cleanupPreference": "Always"
+      },
+      "location": "[resourceGroup().location]",
+      "identity": {
+        "type": "UserAssigned"
+      }
+    }
+  ],
+  "outputs": {
+    "text": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Resources/deploymentScripts', 'hello')).output.text]"
+    }
+  }
+}

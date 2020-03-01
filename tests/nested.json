@@ -1,0 +1,387 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": {
+      "type": "string"
+    },
+    "subnetResourceId": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "nested0",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "index": {
+              "type": "string"
+            },
+            "namePrefix": {
+              "type": "string"
+            },
+            "subnetResourceId": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "apiVersion": "2019-11-01",
+              "name": "[concat(parameters('namePrefix'), '-pip', parameters('index'))]",
+              "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+              },
+              "location": "[resourceGroup().location]"
+            },
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2019-11-01",
+              "name": "[concat(parameters('namePrefix'), '-nic', parameters('index'))]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "myConfig",
+                    "properties": {
+                      "subnet": {
+                        "id": "[parameters('subnetResourceId')]"
+                      },
+                      "privateIPAllocationMethod": "Dynamic",
+                      "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip', parameters('index')))]"
+                      }
+                    }
+                  }
+                ]
+              },
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip', parameters('index')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2019-07-01",
+              "name": "[concat(parameters('namePrefix'), '-vm', parameters('index'))]",
+              "properties": {
+                "osProfile": {
+                  "computerName": "[concat('vm', parameters('index'))]",
+                  "adminUsername": "antm88",
+                  "adminPassword": "secretPassword",
+                  "windowsConfiguration": {
+                    "provisionVMAgent": true
+                  }
+                },
+                "hardwareProfile": {
+                  "vmSize": "Standard_A1_v2"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2016-Datacenter",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage"
+                  },
+                  "dataDisks": []
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "properties": {
+                        "primary": true
+                      },
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic', parameters('index')))]"
+                    }
+                  ]
+                }
+              },
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic', parameters('index')))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "vmResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('namePrefix'), '-vm', parameters('index')))]"
+            }
+          }
+        },
+        "parameters": {
+          "index": {
+            "value": "0"
+          },
+          "namePrefix": {
+            "value": "[parameters('namePrefix')]"
+          },
+          "subnetResourceId": {
+            "value": "[parameters('subnetResourceId')]"
+          }
+        }
+      },
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "nested1",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "index": {
+              "type": "string"
+            },
+            "namePrefix": {
+              "type": "string"
+            },
+            "subnetResourceId": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "apiVersion": "2019-11-01",
+              "name": "[concat(parameters('namePrefix'), '-pip', parameters('index'))]",
+              "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+              },
+              "location": "[resourceGroup().location]"
+            },
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2019-11-01",
+              "name": "[concat(parameters('namePrefix'), '-nic', parameters('index'))]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "myConfig",
+                    "properties": {
+                      "subnet": {
+                        "id": "[parameters('subnetResourceId')]"
+                      },
+                      "privateIPAllocationMethod": "Dynamic",
+                      "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip', parameters('index')))]"
+                      }
+                    }
+                  }
+                ]
+              },
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip', parameters('index')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2019-07-01",
+              "name": "[concat(parameters('namePrefix'), '-vm', parameters('index'))]",
+              "properties": {
+                "osProfile": {
+                  "computerName": "[concat('vm', parameters('index'))]",
+                  "adminUsername": "antm88",
+                  "adminPassword": "secretPassword",
+                  "windowsConfiguration": {
+                    "provisionVMAgent": true
+                  }
+                },
+                "hardwareProfile": {
+                  "vmSize": "Standard_A1_v2"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2016-Datacenter",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage"
+                  },
+                  "dataDisks": []
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "properties": {
+                        "primary": true
+                      },
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic', parameters('index')))]"
+                    }
+                  ]
+                }
+              },
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic', parameters('index')))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "vmResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('namePrefix'), '-vm', parameters('index')))]"
+            }
+          }
+        },
+        "parameters": {
+          "index": {
+            "value": "1"
+          },
+          "namePrefix": {
+            "value": "[parameters('namePrefix')]"
+          },
+          "subnetResourceId": {
+            "value": "[parameters('subnetResourceId')]"
+          }
+        }
+      },
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "nested2",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "index": {
+              "type": "string"
+            },
+            "namePrefix": {
+              "type": "string"
+            },
+            "subnetResourceId": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "apiVersion": "2019-11-01",
+              "name": "[concat(parameters('namePrefix'), '-pip', parameters('index'))]",
+              "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+              },
+              "location": "[resourceGroup().location]"
+            },
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2019-11-01",
+              "name": "[concat(parameters('namePrefix'), '-nic', parameters('index'))]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "myConfig",
+                    "properties": {
+                      "subnet": {
+                        "id": "[parameters('subnetResourceId')]"
+                      },
+                      "privateIPAllocationMethod": "Dynamic",
+                      "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip', parameters('index')))]"
+                      }
+                    }
+                  }
+                ]
+              },
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip', parameters('index')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2019-07-01",
+              "name": "[concat(parameters('namePrefix'), '-vm', parameters('index'))]",
+              "properties": {
+                "osProfile": {
+                  "computerName": "[concat('vm', parameters('index'))]",
+                  "adminUsername": "antm88",
+                  "adminPassword": "secretPassword",
+                  "windowsConfiguration": {
+                    "provisionVMAgent": true
+                  }
+                },
+                "hardwareProfile": {
+                  "vmSize": "Standard_A1_v2"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2016-Datacenter",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage"
+                  },
+                  "dataDisks": []
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "properties": {
+                        "primary": true
+                      },
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic', parameters('index')))]"
+                    }
+                  ]
+                }
+              },
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic', parameters('index')))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "vmResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('namePrefix'), '-vm', parameters('index')))]"
+            }
+          }
+        },
+        "parameters": {
+          "index": {
+            "value": "2"
+          },
+          "namePrefix": {
+            "value": "[parameters('namePrefix')]"
+          },
+          "subnetResourceId": {
+            "value": "[parameters('subnetResourceId')]"
+          }
+        }
+      },
+      "location": "[resourceGroup().location]"
+    }
+  ],
+  "outputs": {}
+}

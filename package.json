@@ -5,7 +5,8 @@
   "main": "execute",
   "scripts": {
     "deploy": "arm-deploy",
-    "display": "arm-display"
+    "display": "arm-display",
+    "test": "mocha -r ts-node/register tests/run.ts"
   },
   "bugs": {
     "url": "https://github.com/anthony-c-martin/arm-templator-usage/issues"
@@ -23,9 +24,13 @@
   "author": "Anthony Martin <anthony.ct.martin@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.2.9",
+    "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.7",
     "arm-templator": "^0.0.23",
     "arm-templator-types": "^0.0.10",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.0",
     "ts-node": "^8.6.1",
     "typescript": "^3.8.3"
   }
